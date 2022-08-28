@@ -1,7 +1,7 @@
 package com.choota.dmotion.data.remote.dto
 
-import com.choota.dmotion.domain.model.Channel
 import com.choota.dmotion.domain.model.Video
+import com.choota.dmotion.domain.model.VideoPage
 import com.choota.dmotion.util.resolve
 import com.google.gson.annotations.SerializedName
 
@@ -83,4 +83,15 @@ fun VideoDto.toVideos(): List<Video> {
 			tags = it.tags
 		)
 	}
+}
+
+/**
+ * toPage will convert Video list to only what we need
+ */
+fun VideoDto.toPage(): VideoPage {
+	return VideoPage(
+		this.page.resolve(),
+		this.toVideos(),
+		this.total.resolve()
+	)
 }

@@ -4,7 +4,7 @@ import com.choota.dmotion.data.remote.dto.ChannelDto
 import com.choota.dmotion.data.remote.dto.VideoDto
 
 interface DMotionRepository {
-    suspend fun getChannels(): ChannelDto
+    suspend fun getChannels(page: Int): ChannelDto
     suspend fun getChannelVideos(
         channel: String,
         page: Int,

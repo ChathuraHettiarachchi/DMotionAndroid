@@ -17,8 +17,8 @@ class DMotionRepositoryImpl @Inject constructor(private val api: DMotionAPI) : D
     /**
      * Get channels
      */
-    override suspend fun getChannels(): ChannelDto {
-        return api.getChannels()
+    override suspend fun getChannels(page: Int): ChannelDto {
+        return api.getChannels(page)
     }
 
     /**

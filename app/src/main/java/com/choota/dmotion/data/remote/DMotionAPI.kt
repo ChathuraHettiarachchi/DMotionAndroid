@@ -10,8 +10,8 @@ import retrofit2.http.Path
  * Dailymotion API list for DMotion application
  */
 interface DMotionAPI {
-    @GET("/channels")
-    suspend fun getChannels(): ChannelDto
+    @GET("/channels?page={page")
+    suspend fun getChannels(@Path("page") page: Int): ChannelDto
 
     @GET("/channel/{channel}/videos?fields={fields}&page={page}&limit={limit}")
     suspend fun getChannelVideos(
