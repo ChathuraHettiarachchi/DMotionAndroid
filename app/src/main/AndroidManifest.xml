@@ -4,6 +4,7 @@
     package="com.choota.dmotion">
 
     <application
+        android:name=".DMotionApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,10 +13,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DMotion"
-        android:name=".DMotionApplication"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.videos.VideoListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.videodetails.VideoDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.player.PlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.channels.ChannelActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.splash.SplashActivity"
+            android:theme="@style/SplashTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
