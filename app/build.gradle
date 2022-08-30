@@ -86,6 +86,9 @@ dependencies {
 
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // chipview
+    implementation 'com.github.jakebonk:ChipView:1.0.1'
 }
 
 kapt {
