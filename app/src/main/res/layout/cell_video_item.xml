@@ -51,13 +51,13 @@
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtCreated"
+            android:id="@+id/txtViews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="1"
             android:lines="1"
             android:ellipsize="end"
-            android:text="10/10/2020"
+            android:text="views"
             android:textSize="12sp"
             android:textColor="@color/black_30"
             android:layout_gravity="bottom"
