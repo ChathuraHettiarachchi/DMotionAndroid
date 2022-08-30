@@ -73,7 +73,6 @@ fun VideoDto.toVideos(): List<Video> {
 		Video(
 			duration = it.duration.resolve(),
 			country = it.country.resolve(),
-			audience = it.audience,
 			channelName = it.channelName.resolve(),
 			viewsTotal = it.viewsTotal.resolve(),
 			description = it.description.resolve(),
