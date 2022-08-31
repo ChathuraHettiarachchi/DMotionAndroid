@@ -22,6 +22,8 @@
         <entry key="app/src/main/res/layout/cell_channel_item.xml" value="0.41770833333333335" />
         <entry key="app/src/main/res/layout/cell_tag.xml" value="1.1893491636539637" />
         <entry key="app/src/main/res/layout/cell_video_item.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/placeholder_cell_video_item.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/placeholder_video_list.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.3288335164388023" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2525" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2525" />

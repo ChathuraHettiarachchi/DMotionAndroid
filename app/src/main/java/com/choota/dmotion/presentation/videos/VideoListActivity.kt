@@ -45,15 +45,19 @@ class VideoListActivity : AppCompatActivity() {
         title = intent.getStringExtra(TITLE).toString()
         description = intent.getStringExtra(DESCRIPTION).toString()
         videoAdapter = VideoAdapter(this)
+
         viewModel.getVideos(channel)
 
         lifecycleScope.launchWhenCreated {
             viewModel.videoState.collect {
                 if (it.isLoading) {
+                    binding.viewShimmer.startShimmer()
                     binding.recyclerVideos.gone()
                 } else if (!it.isLoading && it.error.isNotEmpty()) {
                     Toast.makeText(this@VideoListActivity, it.error, Toast.LENGTH_LONG).show()
                 } else {
+                    binding.viewShimmer.stopShimmer()
+                    binding.viewShimmer.gone()
                     binding.recyclerVideos.visible()
                     videoAdapter.addVideos(it.data.list)
                 }

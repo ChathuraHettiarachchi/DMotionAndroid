@@ -16,7 +16,8 @@
             android:id="@+id/imgPoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:background="@color/grey"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="Title"
+            android:background="@color/grey"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black" />
@@ -45,9 +46,9 @@
             android:layout_height="wrap_content"
             android:maxLines="6"
             android:lines="6"
-            android:ellipsize="end"
             android:layout_marginTop="8dp"
-            android:text="Description"
+            android:ellipsize="end"
+            android:background="@color/grey"
             android:textSize="12sp"
             android:textColor="@color/black" />
 
@@ -57,10 +58,10 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:lines="1"
+            android:background="@color/grey"
             android:ellipsize="end"
-            android:text="views"
-            android:textSize="12sp"
             android:layout_marginTop="8dp"
+            android:textSize="12sp"
             android:textColor="@color/black_30"
             android:layout_gravity="bottom"
             android:gravity="end|bottom"/>
