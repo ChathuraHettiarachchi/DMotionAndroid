@@ -21,6 +21,7 @@
                 android:layout_height="match_parent"
                 app:layout_collapseMode="parallax"
                 android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
                 tools:ignore="ContentDescription" />
 
             <View
@@ -91,6 +92,16 @@
                     android:textSize="18sp"/>
 
             </RelativeLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/viewShimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    layout="@layout/placeholder_video_list"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerVideos"

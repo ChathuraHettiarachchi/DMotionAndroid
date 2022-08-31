@@ -3,6 +3,7 @@ package com.choota.dmotion.domain.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+
 /**
  * Video model for UI population
  */

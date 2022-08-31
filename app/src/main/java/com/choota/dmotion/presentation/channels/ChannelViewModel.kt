@@ -2,17 +2,22 @@ package com.choota.dmotion.presentation.channels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.choota.dmotion.domain.model.Channel
+import com.choota.dmotion.domain.model.ChannelPage
 import com.choota.dmotion.domain.use_case.get_channels.GetChannelsUseCase
+import com.choota.dmotion.domain.use_case.get_images.GetImagesUseCase
 import com.choota.dmotion.util.Resource
+import com.choota.dmotion.util.resolve
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ChannelViewModel @Inject constructor(private val channelsUseCase: GetChannelsUseCase) :
+class ChannelViewModel @Inject constructor(
+    private val channelsUseCase: GetChannelsUseCase,
+    private val imagesUseCase: GetImagesUseCase
+) :
     ViewModel() {
 
     // mutable state for api response
@@ -28,21 +33,49 @@ class ChannelViewModel @Inject constructor(private val channelsUseCase: GetChann
      * @param page is the page number
      */
     private fun getChannels(page: Int = 1) {
-        channelsUseCase(page).onEach {
-            when (it) {
+        channelsUseCase(page).onEach { _it ->
+            when (_it) {
                 is Resource.Error -> {
                     _channelState.value = ChannelDataState(
                         isLoading = false,
-                        error = it.message ?: "An unexpected error occurred"
+                        error = _it.message ?: "An unexpected error occurred"
                     )
                 }
                 is Resource.Loading -> {
                     _channelState.value = ChannelDataState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    _channelState.value = ChannelDataState(isLoading = false, data = it.data!!)
+                    getImages(_it.data!!)
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun getImages(page: ChannelPage) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val _list = mutableListOf<Channel>()
+            val job = page.list.map {
+                async {
+                    imagesUseCase(it.id, it.id).onEach { response ->
+                        when (response) {
+                            is Resource.Error -> {}
+                            is Resource.Loading -> {}
+                            is Resource.Success -> {
+                                _list.add(it.apply {
+                                    if (response.data?.list!!.isNotEmpty())
+                                        image =
+                                            response.data.list[(0..response.data.list.size).random()].webformatURL.resolve()
+                                })
+                            }
+                        }
+                    }.launchIn(viewModelScope)
+                }
+            }.awaitAll()
+
+            job.joinAll()
+            withContext(Dispatchers.Main){
+                _channelState.value = ChannelDataState(isLoading = false, data = page.apply { list = _list })
+            }
+        }
     }
 }

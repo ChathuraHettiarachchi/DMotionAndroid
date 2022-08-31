@@ -1,23 +1,32 @@
 package com.choota.dmotion.presentation.videos
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.choota.dmotion.R
 import com.choota.dmotion.domain.model.Video
+import com.choota.dmotion.presentation.videodetails.VideoDetailActivity
+import com.choota.dmotion.util.Constants.DETAILS
+import com.choota.dmotion.util.launchActivity
 import com.choota.dmotion.util.resolve
+import com.choota.dmotion.util.resolveHtml
 
 /**
  * Adapter to populate Videos coming from dailymotion API
  * @param context is the context of activity where it creates
  */
-class VideoAdapter(context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+class VideoAdapter(loader: ImageLoader, context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+    val _loader = loader
     val _context = context
     var items: List<Video> = listOf()
 
@@ -36,12 +45,22 @@ class VideoAdapter(context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHol
         val item = items[position]
 
         holder.txtTitle.text = item.title.resolve()
-        holder.txtDescription.text = item.description.resolve()
+        holder.txtDescription.text = item.description.resolveHtml()
         holder.txtViews.text = "${item.viewsTotal} views"
 
-        holder.imgPoster.load(item.thumbnail720Url){
-            crossfade(true)
-            placeholder(R.drawable.placeholder)
+        val request = ImageRequest.Builder(_context)
+            .data(item.thumbnail720Url)
+            .placeholder(R.drawable.placeholder)
+            .crossfade(true)
+            .target(holder.imgPoster)
+            .build()
+
+        _loader.enqueue(request)
+
+        holder.layMain.setOnClickListener {
+            _context.launchActivity<VideoDetailActivity> {
+                putExtra(DETAILS, item)
+            }
         }
     }
 
@@ -54,5 +73,6 @@ class VideoAdapter(context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHol
         var txtTitle: AppCompatTextView = view.findViewById(R.id.txtTitle)
         var txtDescription: AppCompatTextView = view.findViewById(R.id.txtDescription)
         var txtViews: AppCompatTextView = view.findViewById(R.id.txtViews)
+        var layMain: LinearLayoutCompat = view.findViewById(R.id.layMain)
     }
 }

@@ -59,7 +59,7 @@ fun ChannelDto.toChannels(): List<Channel> {
             createdTime = it.createdTime.resolve(),
             name = it.name.resolve(),
             description = it.description.resolve(),
-
+            id = it.id.resolve()
             )
     }
 }

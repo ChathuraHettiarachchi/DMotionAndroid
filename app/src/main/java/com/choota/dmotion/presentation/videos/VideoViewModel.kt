@@ -28,7 +28,7 @@ class VideoViewModel @Inject constructor(private val videosUseCase: GetChannelVi
      * @param page is the page number
      * @param limit is the number of data per page
      */
-    private fun getVideos(channel: String, page: Int = 1, limit: Int = 50) {
+    fun getVideos(channel: String, page: Int = 1, limit: Int = 50) {
         videosUseCase(channel, page, limit, Constants.VIDEO_FIELDS).onEach {
             when (it) {
                 is Resource.Error -> {
