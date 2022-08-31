@@ -104,17 +104,19 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
                         android:text="1000"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="@color/text"
-                        android:textSize="14sp" />
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
                         android:text="views"
-                        android:textColor="@color/text"
-                        android:textSize="14sp" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -130,8 +132,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
                         android:text="Duration:"
-                        android:textColor="@color/text"
-                        android:textSize="14sp" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/txtDuration"
@@ -140,8 +143,9 @@
                         android:layout_below="@+id/txtTitle"
                         android:text="02:00"
                         android:layout_marginStart="8dp"
-                        android:textColor="@color/text"
-                        android:textSize="14sp" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -171,7 +175,8 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="Country:"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtCountry"
@@ -180,8 +185,9 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="Finland"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/text"
-                    android:textSize="14sp" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -198,7 +204,8 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="Language:"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtLanguage"
@@ -207,25 +214,28 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="1000"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/text"
-                    android:textSize="14sp" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
+                android:id="@+id/txtTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtTitle"
                 android:text="Tags"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerTags"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="400dp"
                 android:clipToPadding="false"
                 tools:listitem="@layout/cell_tag" />
 

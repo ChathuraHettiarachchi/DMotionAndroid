@@ -48,6 +48,20 @@ fun String?.language(): String{
 fun Int?.resolve(replace: Int = -1): Int = this ?: replace
 
 /**
+ * convert to minutes and seconds
+ */
+fun Int?.toMMSS(): String {
+    return if(this == null) {
+        "N/A"
+    }else {
+        val s = this%60
+        val m = this/60
+
+        "$m:$s"
+    }
+}
+
+/**
  * make view visible
  */
 fun View.visible(){

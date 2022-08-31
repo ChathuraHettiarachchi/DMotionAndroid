@@ -39,7 +39,7 @@ class VideoDetailActivity : AppCompatActivity() {
         binding.txtDescription.text = video.description.resolveHtml()
         binding.txtViews.text = video.viewsTotal.toString().resolve()
         binding.txtViews.text = video.viewsTotal.toString().resolve()
-        binding.txtDuration.text = video.duration.toString().resolve()
+        binding.txtDuration.text = video.duration.toMMSS()
         binding.txtCountry.text = video.country.country()
         binding.txtLanguage.text = video.language.language()
         binding.btnBack.setOnClickListener { finish() }
@@ -53,20 +53,24 @@ class VideoDetailActivity : AppCompatActivity() {
             launchActivity<PlayerActivity> { }
         }
 
-        val chipsLayoutManager =
-            ChipsLayoutManager.newBuilder(this)
-                .setChildGravity(Gravity.TOP)
-                .setScrollingEnabled(true)
-                .setGravityResolver { Gravity.CENTER }
-                .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_VIEW)
-                .build()
+        if(!video.tags.isNullOrEmpty()) {
+            val chipsLayoutManager =
+                ChipsLayoutManager.newBuilder(this)
+                    .setChildGravity(Gravity.TOP)
+                    .setScrollingEnabled(true)
+                    .setGravityResolver { Gravity.CENTER }
+                    .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                    .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_VIEW)
+                    .build()
 
-        binding.recyclerTags.apply {
-            adapter = VideoTagAdapter(this@VideoDetailActivity, video.tags!! as List<String>)
-            layoutManager = chipsLayoutManager
-            setHasFixedSize(true)
-            addItemDecoration(SpacingItemDecoration(8,8))
+            binding.recyclerTags.apply {
+                adapter = VideoTagAdapter(this@VideoDetailActivity, video.tags!! as List<String>)
+                layoutManager = chipsLayoutManager
+                setHasFixedSize(true)
+                addItemDecoration(SpacingItemDecoration(12, 12))
+            }
+        } else {
+            binding.txtTag.gone()
         }
     }
 
