@@ -5,19 +5,20 @@ import com.choota.dmotion.data.remote.dto.VideoDto
 import com.choota.dmotion.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Dailymotion API list for DMotion application
  */
 interface DMotionAPI {
-    @GET("/channels?page={page")
-    suspend fun getChannels(@Path("page") page: Int): ChannelDto
+    @GET("/channels")
+    suspend fun getChannels(@Query("page") page: Int): ChannelDto
 
-    @GET("/channel/{channel}/videos?fields={fields}&page={page}&limit={limit}")
+    @GET("/channel/{channel}/videos")
     suspend fun getChannelVideos(
-        @Path("channel") channel: String,
-        @Path("page") page: Int,
-        @Path("limit") limit: Int,
-        @Path("fields") fields: String = Constants.VIDEO_FIELDS
+        @Query("channel") channel: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("fields") fields: String = Constants.VIDEO_FIELDS
     ): VideoDto
 }

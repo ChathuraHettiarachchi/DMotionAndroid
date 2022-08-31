@@ -2,11 +2,67 @@ package com.choota.dmotion.presentation.channels
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.choota.dmotion.R
+import com.choota.dmotion.databinding.ActivityChannelBinding
+import com.choota.dmotion.util.gone
+import com.choota.dmotion.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChannelActivity : AppCompatActivity() {
+
+    private lateinit var channelAdapter: ChannelAdapter
+    private var _binding: ActivityChannelBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: ChannelViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_channel)
+        _binding = ActivityChannelBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setup()
+        initUI()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun setup() {
+        channelAdapter = ChannelAdapter(this)
+        lifecycleScope.launchWhenCreated {
+            viewModel.channelState.collect{
+                if(it.isLoading){
+                    binding.lottieLoading.visible()
+                    binding.recyclerChannels.gone()
+                } else if (!it.isLoading && it.error.isNotEmpty()){
+                    Toast.makeText(this@ChannelActivity, it.error, Toast.LENGTH_LONG).show()
+                } else {
+                    binding.lottieLoading.gone()
+                    binding.recyclerChannels.visible()
+                    channelAdapter.addChannels(it.data.list)
+                }
+            }
+        }
+    }
+
+    private fun initUI() {
+        binding.lottieLoading.visible()
+        binding.recyclerChannels.gone()
+
+        binding.recyclerChannels.apply {
+            adapter = channelAdapter
+            layoutManager = LinearLayoutManager(this@ChannelActivity)
+            setHasFixedSize(false)
+        }
     }
 }

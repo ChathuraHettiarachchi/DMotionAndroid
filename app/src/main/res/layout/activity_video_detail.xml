@@ -213,14 +213,20 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.allyants.chipview.ChipView
-                android:id="@+id/chips"
-                android:layout_marginTop="8dp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:contentDescription="Play"
+        android:text="Play"
+        app:icon="@drawable/baseline_play_circle_white_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
