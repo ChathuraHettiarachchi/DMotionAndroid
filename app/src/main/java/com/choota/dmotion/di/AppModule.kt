@@ -2,8 +2,11 @@ package com.choota.dmotion.di
 
 import android.provider.SyncStateContract
 import com.choota.dmotion.data.remote.DMotionAPI
+import com.choota.dmotion.data.remote.PixabayAPI
 import com.choota.dmotion.data.repository.DMotionRepositoryImpl
+import com.choota.dmotion.data.repository.PixabayRepositoryImpl
 import com.choota.dmotion.domain.repository.DMotionRepository
+import com.choota.dmotion.domain.repository.PixabayRepository
 import com.choota.dmotion.util.Constants
 import com.choota.dmotion.util.Constants.BASE_URL
 import dagger.Module
@@ -15,6 +18,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -56,6 +60,19 @@ object AppModule {
     }
 
     /**
+     * Pixabay retrofit instance for the application
+     */
+    @Provides
+    @Singleton
+    fun providesPixabayAPI(): PixabayAPI {
+        return Retrofit.Builder()
+            .baseUrl(Constants.PixaBASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PixabayAPI::class.java)
+    }
+
+    /**
      * DMotionRepository that will create an instance of impl of the repo.
      * Using this to call the APIs
      */
@@ -63,5 +80,15 @@ object AppModule {
     @Singleton
     fun providesDMotionRepository(api: DMotionAPI): DMotionRepository {
         return DMotionRepositoryImpl(api)
+    }
+
+    /**
+     * PixabayRepository that will create an instance of impl of the repo.
+     * Using this to call the APIs
+     */
+    @Provides
+    @Singleton
+    fun providesPixabayRepository(api: PixabayAPI): PixabayRepository {
+        return PixabayRepositoryImpl(api)
     }
 }

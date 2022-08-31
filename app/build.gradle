@@ -99,6 +99,9 @@ dependencies {
     // chip layoutManager
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
+    // loading
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
 }
 
 kapt {

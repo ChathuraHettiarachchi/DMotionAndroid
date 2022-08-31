@@ -13,6 +13,8 @@ import com.choota.dmotion.databinding.ActivityChannelBinding
 import com.choota.dmotion.util.gone
 import com.choota.dmotion.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChannelActivity : AppCompatActivity() {
@@ -28,8 +30,8 @@ class ChannelActivity : AppCompatActivity() {
         _binding = ActivityChannelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setup()
         initUI()
+        setup()
     }
 
     override fun onDestroy() {
@@ -38,17 +40,16 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun setup() {
-        channelAdapter = ChannelAdapter(this)
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.channelState.collect{
                 if(it.isLoading){
                     binding.lottieLoading.visible()
-                    binding.recyclerChannels.gone()
                 } else if (!it.isLoading && it.error.isNotEmpty()){
                     Toast.makeText(this@ChannelActivity, it.error, Toast.LENGTH_LONG).show()
                 } else {
                     binding.lottieLoading.gone()
                     binding.recyclerChannels.visible()
+                    channelAdapter.notifyDataSetChanged()
                     channelAdapter.addChannels(it.data.list)
                 }
             }
@@ -56,13 +57,13 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+        channelAdapter = ChannelAdapter(this)
         binding.lottieLoading.visible()
-        binding.recyclerChannels.gone()
 
         binding.recyclerChannels.apply {
             adapter = channelAdapter
             layoutManager = LinearLayoutManager(this@ChannelActivity)
-            setHasFixedSize(false)
+            setHasFixedSize(true)
         }
     }
 }

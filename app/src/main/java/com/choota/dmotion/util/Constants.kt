@@ -9,4 +9,7 @@ object Constants {
     const val TITLE = "TITLE"
     const val DESCRIPTION = "DESCRIPTION"
     const val DETAILS = "DETAILS"
+
+    const val PixaBASE_URL = "https://pixabay.com/"
+    const val PixabayKey = "29628766-c529d59caea354059c02ef28d"
 }

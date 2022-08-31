@@ -225,7 +225,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerTags"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
                 tools:listitem="@layout/cell_tag" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

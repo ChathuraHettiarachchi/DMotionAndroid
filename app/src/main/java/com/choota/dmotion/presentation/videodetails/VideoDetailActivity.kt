@@ -56,16 +56,16 @@ class VideoDetailActivity : AppCompatActivity() {
         val chipsLayoutManager =
             ChipsLayoutManager.newBuilder(this)
                 .setChildGravity(Gravity.TOP)
-                .setScrollingEnabled(false)
+                .setScrollingEnabled(true)
                 .setGravityResolver { Gravity.CENTER }
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_SPACE)
-                .withLastRow(true)
+                .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_VIEW)
                 .build()
 
         binding.recyclerTags.apply {
             adapter = VideoTagAdapter(this@VideoDetailActivity, video.tags!! as List<String>)
             layoutManager = chipsLayoutManager
+            setHasFixedSize(true)
             addItemDecoration(SpacingItemDecoration(8,8))
         }
     }

@@ -35,9 +35,12 @@ class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.Vie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
+        val holder = ViewHolder(
             LayoutInflater.from(_context).inflate(R.layout.cell_channel_item, parent, false)
         )
+
+        holder.setIsRecyclable(false)
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,7 +49,7 @@ class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.Vie
         holder.txtTitle.text = item.name.resolve()
         holder.txtDescription.text = item.description.resolveHtml()
 
-        holder.imgPoster.load("https://static1.colliderimages.com/wordpress/wp-content/uploads/slice_inception_movie_poster_banner_01.jpg"){
+        holder.imgPoster.load(item.image){
             crossfade(true)
             placeholder(R.drawable.placeholder)
         }
