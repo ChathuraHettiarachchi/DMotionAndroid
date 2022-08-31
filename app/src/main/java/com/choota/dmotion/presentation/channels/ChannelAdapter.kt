@@ -19,6 +19,7 @@ import com.choota.dmotion.util.Constants.IMAGE
 import com.choota.dmotion.util.Constants.TITLE
 import com.choota.dmotion.util.launchActivity
 import com.choota.dmotion.util.resolve
+import com.choota.dmotion.util.resolveHtml
 
 /**
  * Adapter to populate channels coming from dailymotion API
@@ -43,7 +44,7 @@ class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.Vie
         val item = items[position]
 
         holder.txtTitle.text = item.name.resolve()
-        holder.txtDescription.text = item.description.resolve()
+        holder.txtDescription.text = item.description.resolveHtml()
 
         holder.imgPoster.load("https://static1.colliderimages.com/wordpress/wp-content/uploads/slice_inception_movie_poster_banner_01.jpg"){
             crossfade(true)

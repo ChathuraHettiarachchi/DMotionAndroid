@@ -96,6 +96,9 @@ dependencies {
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // chip layoutManager
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+
 }
 
 kapt {

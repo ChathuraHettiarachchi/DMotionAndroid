@@ -1,17 +1,45 @@
 package com.choota.dmotion.util
 
 import android.app.Activity
+import android.content.ClipData.newIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.text.Spanned
 import android.view.View
+import java.util.*
+
 
 /**
  * resolve will replace null with replace value.
  * default will be empty string
  */
 fun String?.resolve(replace: String = ""): String = this ?: replace
+
+fun String?.resolveHtml(): Spanned {
+    val result: Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this.resolve(), Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(this.resolve())
+    }
+    return result
+}
+
+fun String?.country(): String{
+    return if(this.isNullOrEmpty())
+        "N/A"
+    else
+        Locale("", this).displayCountry
+}
+
+fun String?.language(): String{
+    return if(this.isNullOrEmpty())
+        "N/A"
+    else
+        Locale(this, "").displayLanguage
+}
 
 /**
  * resolve will replace null with replace value.
@@ -73,3 +101,4 @@ inline fun <reified T : Any> Context.launchActivity (
  */
 inline fun <reified T : Any> newIntent(context: Context): Intent =
     Intent(context, T::class.java)
+

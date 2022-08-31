@@ -8,4 +8,5 @@ object Constants {
     const val IMAGE = "IMAGE"
     const val TITLE = "TITLE"
     const val DESCRIPTION = "DESCRIPTION"
+    const val DETAILS = "DETAILS"
 }
