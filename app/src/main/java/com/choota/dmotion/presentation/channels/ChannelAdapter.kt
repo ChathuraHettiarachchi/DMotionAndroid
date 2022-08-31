@@ -11,6 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.choota.dmotion.R
 import com.choota.dmotion.domain.model.Channel
+import com.choota.dmotion.presentation.videos.VideoListActivity
+import com.choota.dmotion.util.Constants
+import com.choota.dmotion.util.Constants.CHANNEL
+import com.choota.dmotion.util.Constants.DESCRIPTION
+import com.choota.dmotion.util.Constants.IMAGE
+import com.choota.dmotion.util.Constants.TITLE
+import com.choota.dmotion.util.launchActivity
 import com.choota.dmotion.util.resolve
 
 /**
@@ -41,6 +48,15 @@ class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.Vie
         holder.imgPoster.load("https://static1.colliderimages.com/wordpress/wp-content/uploads/slice_inception_movie_poster_banner_01.jpg"){
             crossfade(true)
             placeholder(R.drawable.placeholder)
+        }
+
+        holder.imgPoster.setOnClickListener {
+            _context.launchActivity<VideoListActivity> {
+                putExtra(CHANNEL, item.id)
+                putExtra(IMAGE, item.image)
+                putExtra(TITLE, item.name)
+                putExtra(DESCRIPTION, item.description)
+            }
         }
     }
 

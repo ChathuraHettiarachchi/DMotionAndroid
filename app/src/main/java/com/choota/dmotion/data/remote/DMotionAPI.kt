@@ -12,11 +12,14 @@ import retrofit2.http.Query
  */
 interface DMotionAPI {
     @GET("/channels")
-    suspend fun getChannels(@Query("page") page: Int): ChannelDto
+    suspend fun getChannels(
+        @Query("page") page: Int,
+        @Query("fields") fields: String = Constants.CHANNEL_FIELDS
+    ): ChannelDto
 
     @GET("/channel/{channel}/videos")
     suspend fun getChannelVideos(
-        @Query("channel") channel: String,
+        @Path("channel") channel: String,
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("fields") fields: String = Constants.VIDEO_FIELDS
