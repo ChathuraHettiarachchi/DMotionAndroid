@@ -10,7 +10,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.choota.dmotion.R
 import com.choota.dmotion.domain.model.Video
 import com.choota.dmotion.presentation.videodetails.VideoDetailActivity
@@ -23,7 +25,8 @@ import com.choota.dmotion.util.resolveHtml
  * Adapter to populate Videos coming from dailymotion API
  * @param context is the context of activity where it creates
  */
-class VideoAdapter(context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+class VideoAdapter(loader: ImageLoader, context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+    val _loader = loader
     val _context = context
     var items: List<Video> = listOf()
 
@@ -45,10 +48,14 @@ class VideoAdapter(context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHol
         holder.txtDescription.text = item.description.resolveHtml()
         holder.txtViews.text = "${item.viewsTotal} views"
 
-        holder.imgPoster.load(item.thumbnail720Url){
-            crossfade(true)
-            placeholder(R.drawable.placeholder)
-        }
+        val request = ImageRequest.Builder(_context)
+            .data(item.thumbnail720Url)
+            .placeholder(R.drawable.placeholder)
+            .crossfade(true)
+            .target(holder.imgPoster)
+            .build()
+
+        _loader.enqueue(request)
 
         holder.layMain.setOnClickListener {
             _context.launchActivity<VideoDetailActivity> {

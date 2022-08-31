@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.choota.dmotion.R
 import com.choota.dmotion.databinding.ActivityChannelBinding
 import com.choota.dmotion.util.gone
@@ -15,14 +16,16 @@ import com.choota.dmotion.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChannelActivity : AppCompatActivity() {
 
+    @Inject lateinit var loader: ImageLoader
+
     private lateinit var channelAdapter: ChannelAdapter
     private var _binding: ActivityChannelBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: ChannelViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +60,7 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        channelAdapter = ChannelAdapter(this)
+        channelAdapter = ChannelAdapter(loader, this)
         binding.lottieLoading.visible()
 
         binding.recyclerChannels.apply {

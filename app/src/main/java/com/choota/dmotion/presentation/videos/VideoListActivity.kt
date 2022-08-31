@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import coil.load
 import com.choota.dmotion.R
 import com.choota.dmotion.databinding.ActivityVideoListBinding
@@ -16,9 +17,13 @@ import com.choota.dmotion.util.Constants.TITLE
 import com.choota.dmotion.util.gone
 import com.choota.dmotion.util.visible
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class VideoListActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var loader: ImageLoader
 
     private lateinit var videoAdapter: VideoAdapter
     private lateinit var channel: String
@@ -44,7 +49,7 @@ class VideoListActivity : AppCompatActivity() {
         imagePoster = intent.getStringExtra(IMAGE).toString()
         title = intent.getStringExtra(TITLE).toString()
         description = intent.getStringExtra(DESCRIPTION).toString()
-        videoAdapter = VideoAdapter(this)
+        videoAdapter = VideoAdapter(loader, this)
 
         viewModel.getVideos(channel)
 

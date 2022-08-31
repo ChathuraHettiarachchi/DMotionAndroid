@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.choota.dmotion.R
 import com.choota.dmotion.domain.model.Channel
 import com.choota.dmotion.presentation.videos.VideoListActivity
@@ -20,12 +22,16 @@ import com.choota.dmotion.util.Constants.TITLE
 import com.choota.dmotion.util.launchActivity
 import com.choota.dmotion.util.resolve
 import com.choota.dmotion.util.resolveHtml
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Adapter to populate channels coming from dailymotion API
  * @param context is the context of activity where it creates
  */
-class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.ViewHolder>() {
+class ChannelAdapter (loader: ImageLoader, context: Context) : RecyclerView.Adapter<ChannelAdapter.ViewHolder>() {
+
+    val _loader = loader
     val _context = context
     var items: List<Channel> = listOf()
 
@@ -49,10 +55,14 @@ class ChannelAdapter(context: Context) : RecyclerView.Adapter<ChannelAdapter.Vie
         holder.txtTitle.text = item.name.resolve()
         holder.txtDescription.text = item.description.resolveHtml()
 
-        holder.imgPoster.load(item.image){
-            crossfade(true)
-            placeholder(R.drawable.placeholder)
-        }
+        val request = ImageRequest.Builder(_context)
+            .data(item.image)
+            .crossfade(true)
+            .placeholder(R.drawable.placeholder)
+            .target(holder.imgPoster)
+            .build()
+
+        _loader.enqueue(request)
 
         holder.imgPoster.setOnClickListener {
             _context.launchActivity<VideoListActivity> {

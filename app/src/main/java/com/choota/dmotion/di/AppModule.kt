@@ -1,6 +1,10 @@
 package com.choota.dmotion.di
 
+import android.content.Context
 import android.provider.SyncStateContract
+import coil.ImageLoader
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.choota.dmotion.data.remote.DMotionAPI
 import com.choota.dmotion.data.remote.PixabayAPI
 import com.choota.dmotion.data.repository.DMotionRepositoryImpl
@@ -12,6 +16,7 @@ import com.choota.dmotion.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -90,5 +95,27 @@ object AppModule {
     @Singleton
     fun providesPixabayRepository(api: PixabayAPI): PixabayRepository {
         return PixabayRepositoryImpl(api)
+    }
+
+    /**
+     * PixabayRepository that will create an instance of impl of the repo.
+     * Using this to call the APIs
+     */
+    @Provides
+    @Singleton
+    fun providesImageLoader(@ApplicationContext context: Context): ImageLoader {
+        return ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder(context)
+                    .maxSizePercent(0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(context.cacheDir.resolve("image_cache"))
+                    .maxSizePercent(0.02)
+                    .build()
+            }
+            .build()
     }
 }
