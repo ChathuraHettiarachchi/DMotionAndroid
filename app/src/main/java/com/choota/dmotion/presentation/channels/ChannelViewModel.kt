@@ -34,15 +34,7 @@ class ChannelViewModel @Inject constructor(
         getChannels(1)
 
         // get resource videos and insert if empty
-        getVideosUseCase().onEach {
-            if(it.isEmpty()){
-                RESOURCE_VIDEOS.forEach { link ->
-                    insertVideoUseCase(
-                        ResourceVideo(0, link)
-                    )
-                }
-            }
-        }.launchIn(viewModelScope)
+        populateResourceVideos()
     }
 
     /**
@@ -73,7 +65,8 @@ class ChannelViewModel @Inject constructor(
             val _list = mutableListOf<Channel>()
             val job = page.list.map {
                 async {
-                    imagesUseCase(it.id, it.id).onEach { response ->
+                    val id = if (it.id == "shortfilms") "movie" else it.id
+                    imagesUseCase(id, id).onEach { response ->
                         when (response) {
                             is Resource.Error -> {}
                             is Resource.Loading -> {}
@@ -90,9 +83,25 @@ class ChannelViewModel @Inject constructor(
             }.awaitAll()
 
             job.joinAll()
-            withContext(Dispatchers.Main){
-                _channelState.value = ChannelDataState(isLoading = false, data = page.apply { list = _list })
+            withContext(Dispatchers.Main) {
+                _channelState.value =
+                    ChannelDataState(isLoading = false, data = page.apply { list = _list })
             }
         }
+    }
+
+    /**
+     * populate resource videos to db
+     */
+    private fun populateResourceVideos() {
+        getVideosUseCase().onEach {
+            if (it.isEmpty()) {
+                RESOURCE_VIDEOS.forEach { link ->
+                    insertVideoUseCase(
+                        ResourceVideo(0, link)
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }

@@ -22,6 +22,6 @@ interface ResourceVideoDao {
     @Delete
     suspend fun deleteVideo(video: ResourceVideo)
 
-    @Query("SELECT * FROM ResourceVideo where playTime < (SELECT min(playTime) from ResourceVideo)")
+    @Query("SELECT id, link, min(playTime) AS 'playTime' FROM ResourceVideo")
     suspend fun getLeastPlayedVideo(): ResourceVideo
 }
