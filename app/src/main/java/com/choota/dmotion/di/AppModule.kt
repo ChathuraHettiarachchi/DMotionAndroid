@@ -1,18 +1,24 @@
 package com.choota.dmotion.di
 
+import android.app.Application
 import android.content.Context
 import android.provider.SyncStateContract
+import androidx.room.Room
 import coil.ImageLoader
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
+import com.choota.dmotion.data.local.DMotionDatabase
 import com.choota.dmotion.data.remote.DMotionAPI
 import com.choota.dmotion.data.remote.PixabayAPI
 import com.choota.dmotion.data.repository.DMotionRepositoryImpl
 import com.choota.dmotion.data.repository.PixabayRepositoryImpl
+import com.choota.dmotion.data.repository.local.ResourceVideoRepositoryImpl
 import com.choota.dmotion.domain.repository.DMotionRepository
 import com.choota.dmotion.domain.repository.PixabayRepository
+import com.choota.dmotion.domain.repository.local.ResourceVideoRepository
 import com.choota.dmotion.util.Constants
 import com.choota.dmotion.util.Constants.BASE_URL
+import com.choota.dmotion.util.Constants.DATABASE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -117,5 +123,25 @@ object AppModule {
                     .build()
             }
             .build()
+    }
+
+    /**
+     * Provides db for the application
+     */
+    @Provides
+    @Singleton
+    fun providesDMotionDatabase(app: Application) = Room.databaseBuilder(
+        app,
+        DMotionDatabase::class.java,
+        DATABASE
+    ).build()
+
+    /**
+     * Provides ResourceVideo repo for access
+     */
+    @Provides
+    @Singleton
+    fun providesResourceVideoRepo(db: DMotionDatabase): ResourceVideoRepository {
+        return ResourceVideoRepositoryImpl(db.resourceVideoDao)
     }
 }

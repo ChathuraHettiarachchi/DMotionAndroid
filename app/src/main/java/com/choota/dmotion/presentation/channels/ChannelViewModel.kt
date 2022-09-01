@@ -4,8 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.choota.dmotion.domain.model.Channel
 import com.choota.dmotion.domain.model.ChannelPage
+import com.choota.dmotion.domain.model.local.ResourceVideo
 import com.choota.dmotion.domain.use_case.get_channels.GetChannelsUseCase
 import com.choota.dmotion.domain.use_case.get_images.GetImagesUseCase
+import com.choota.dmotion.domain.use_case.local.use_case_resource_video.GetVideosUseCase
+import com.choota.dmotion.domain.use_case.local.use_case_resource_video.InsertVideoUseCase
+import com.choota.dmotion.util.Constants.RESOURCE_VIDEOS
 import com.choota.dmotion.util.Resource
 import com.choota.dmotion.util.resolve
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
     private val channelsUseCase: GetChannelsUseCase,
-    private val imagesUseCase: GetImagesUseCase
+    private val imagesUseCase: GetImagesUseCase,
+    private val getVideosUseCase: GetVideosUseCase,
+    private val insertVideoUseCase: InsertVideoUseCase,
 ) :
     ViewModel() {
 
@@ -26,6 +32,9 @@ class ChannelViewModel @Inject constructor(
 
     init {
         getChannels(1)
+
+        // get resource videos and insert if empty
+        populateResourceVideos()
     }
 
     /**
@@ -56,7 +65,8 @@ class ChannelViewModel @Inject constructor(
             val _list = mutableListOf<Channel>()
             val job = page.list.map {
                 async {
-                    imagesUseCase(it.id, it.id).onEach { response ->
+                    val id = if (it.id == "shortfilms") "movie" else it.id
+                    imagesUseCase(id, id).onEach { response ->
                         when (response) {
                             is Resource.Error -> {}
                             is Resource.Loading -> {}
@@ -73,9 +83,25 @@ class ChannelViewModel @Inject constructor(
             }.awaitAll()
 
             job.joinAll()
-            withContext(Dispatchers.Main){
-                _channelState.value = ChannelDataState(isLoading = false, data = page.apply { list = _list })
+            withContext(Dispatchers.Main) {
+                _channelState.value =
+                    ChannelDataState(isLoading = false, data = page.apply { list = _list })
             }
         }
+    }
+
+    /**
+     * populate resource videos to db
+     */
+    private fun populateResourceVideos() {
+        getVideosUseCase().onEach {
+            if (it.isEmpty()) {
+                RESOURCE_VIDEOS.forEach { link ->
+                    insertVideoUseCase(
+                        ResourceVideo(0, link)
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }
