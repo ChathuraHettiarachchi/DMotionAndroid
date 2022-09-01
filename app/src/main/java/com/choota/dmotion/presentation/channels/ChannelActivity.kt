@@ -6,13 +6,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.text.htmlEncode
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
+import coil.load
 import com.choota.dmotion.R
 import com.choota.dmotion.databinding.ActivityChannelBinding
-import com.choota.dmotion.util.gone
-import com.choota.dmotion.util.visible
+import com.choota.dmotion.domain.model.Channel
+import com.choota.dmotion.presentation.videos.VideoListActivity
+import com.choota.dmotion.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,14 +50,16 @@ class ChannelActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.channelState.collect{
                 if(it.isLoading){
-                    binding.lottieLoading.visible()
+                    binding.viewShimmer.startShimmer()
                 } else if (!it.isLoading && it.error.isNotEmpty()){
                     Toast.makeText(this@ChannelActivity, it.error, Toast.LENGTH_LONG).show()
                 } else {
-                    binding.lottieLoading.gone()
+                    binding.viewShimmer.stopShimmer()
+                    binding.viewShimmer.gone()
+                    binding.appBar.visible()
                     binding.recyclerChannels.visible()
-                    channelAdapter.notifyDataSetChanged()
-                    channelAdapter.addChannels(it.data.list)
+
+                    populateChannels(it.data.list.toMutableList())
                 }
             }
         }
@@ -61,12 +67,33 @@ class ChannelActivity : AppCompatActivity() {
 
     private fun initUI() {
         channelAdapter = ChannelAdapter(loader, this)
-        binding.lottieLoading.visible()
+        binding.viewShimmer.visible()
 
         binding.recyclerChannels.apply {
             adapter = channelAdapter
-            layoutManager = LinearLayoutManager(this@ChannelActivity)
+            layoutManager = GridLayoutManager(this@ChannelActivity, 2)
             setHasFixedSize(true)
         }
+    }
+
+    private fun populateChannels(items: MutableList<Channel>){
+        val first = items.removeAt(0)
+        binding.imgPoster.load(first.image){
+            placeholder(R.drawable.placeholder)
+            crossfade(true)
+        }
+        binding.txtFirstTitle.text = first.name.resolve()
+        binding.txtFirstDescription.text = first.description.htmlEncode()
+        binding.imgPoster.setOnClickListener {
+            launchActivity<VideoListActivity> {
+                putExtra(Constants.CHANNEL, first.id)
+                putExtra(Constants.IMAGE, first.image)
+                putExtra(Constants.TITLE, first.name)
+                putExtra(Constants.DESCRIPTION, first.description)
+            }
+        }
+
+        channelAdapter.notifyDataSetChanged()
+        channelAdapter.addChannels(items)
     }
 }

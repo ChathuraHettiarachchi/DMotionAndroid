@@ -37,12 +37,13 @@
                 android:layout_alignParentBottom="true"
                 android:layout_margin="16dp"
                 android:maxLines="1"
-                android:text="Title"
+                android:background="@color/grey"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
+
 
     </RelativeLayout>
 
