@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.load

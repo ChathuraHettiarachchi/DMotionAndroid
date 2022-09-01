@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2525" />
         <entry key="app/src/main/res/drawable/baseline_arrow_back_ios_white_24dp.xml" value="0.257" />
         <entry key="app/src/main/res/drawable/drawable_top_round_white.xml" value="0.265" />
+        <entry key="app/src/main/res/drawable/gradient_black_to_transparent.xml" value="0.253" />
         <entry key="app/src/main/res/drawable/gradient_transparent_to_black.xml" value="0.265" />
         <entry key="app/src/main/res/drawable/ic__03_2036279_review_with_video_icon_zoom_app_logo_p.xml" value="0.2525" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2525" />
@@ -18,11 +19,13 @@
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.21822916666666667" />
         <entry key="app/src/main/res/layout/activity_video_detail.xml" value="0.3437366395895682" />
-        <entry key="app/src/main/res/layout/activity_video_list.xml" value="0.31284046692607004" />
-        <entry key="app/src/main/res/layout/cell_channel_item.xml" value="0.41770833333333335" />
+        <entry key="app/src/main/res/layout/activity_video_list.xml" value="0.17818853974121995" />
+        <entry key="app/src/main/res/layout/cell_channel_item.xml" value="0.35436299641927094" />
         <entry key="app/src/main/res/layout/cell_tag.xml" value="1.1893491636539637" />
         <entry key="app/src/main/res/layout/cell_video_item.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/placeholder_cell_channel_item.xml" value="0.3437366395895682" />
         <entry key="app/src/main/res/layout/placeholder_cell_video_item.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/placeholder_channel.xml" value="0.3437366395895682" />
         <entry key="app/src/main/res/layout/placeholder_video_list.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.3288335164388023" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2525" />

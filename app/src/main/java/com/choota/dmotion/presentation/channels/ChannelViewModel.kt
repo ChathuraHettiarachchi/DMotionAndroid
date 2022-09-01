@@ -64,7 +64,7 @@ class ChannelViewModel @Inject constructor(
                                 _list.add(it.apply {
                                     if (response.data?.list!!.isNotEmpty())
                                         image =
-                                            response.data.list[(0..response.data.list.size).random()].webformatURL.resolve()
+                                            response.data.list[(0 until response.data.list.size).random()].webformatURL.resolve()
                                 })
                             }
                         }

@@ -9,6 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
+        android:background="@color/black"
         android:layout_height="400dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -30,9 +31,14 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/gradient_black_to_transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@drawable/gradient_transparent_to_black"/>
+                    android:background="@drawable/gradient_transparent_to_black" />
 
             </RelativeLayout>
 
@@ -67,8 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="12dp"
-        android:background="@drawable/drawable_top_round_white"
-        app:behavior_overlapTop="40dp"
+        android:background="@color/black"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -82,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -105,7 +110,7 @@
                         android:layout_below="@+id/txtTitle"
                         android:text="1000"
                         android:layout_marginEnd="4dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -114,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
                         android:text="views"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -132,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
                         android:text="Duration:"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -143,7 +148,7 @@
                         android:layout_below="@+id/txtTitle"
                         android:text="02:00"
                         android:layout_marginStart="8dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -151,16 +156,6 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <TextView
-                android:id="@+id/txtDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTitle"
-                android:layout_marginTop="8dp"
-                android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
-                android:textColor="@color/text"
-                android:textSize="16sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -174,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtTitle"
                     android:text="Country:"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -185,7 +180,7 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="Finland"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -203,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtTitle"
                     android:text="Language:"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
@@ -214,12 +209,22 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="1000"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTitle"
+                android:layout_marginTop="8dp"
+                android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
+                android:textColor="@color/white_75"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/txtTag"
@@ -228,7 +233,7 @@
                 android:layout_below="@+id/txtTitle"
                 android:text="Tags"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
@@ -236,6 +241,7 @@
                 android:id="@+id/recyclerTags"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
+                android:layout_marginTop="6dp"
                 android:clipToPadding="false"
                 tools:listitem="@layout/cell_tag" />
 
@@ -250,7 +256,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:contentDescription="Play"
-        android:text="Play"
+        android:text="Play Video"
         app:elevation="12dp"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:icon="@drawable/baseline_play_circle_white_24dp" />
