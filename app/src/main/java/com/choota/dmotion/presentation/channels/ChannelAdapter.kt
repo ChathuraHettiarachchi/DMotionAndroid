@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.load
@@ -53,6 +54,7 @@ class ChannelAdapter (loader: ImageLoader, context: Context) : RecyclerView.Adap
         val item = items[position]
 
         holder.txtTitle.text = item.name.resolve()
+        holder.txtDescription.text = item.description.resolveHtml()
 
         val request = ImageRequest.Builder(_context)
             .data(item.image)
@@ -80,5 +82,6 @@ class ChannelAdapter (loader: ImageLoader, context: Context) : RecyclerView.Adap
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgPoster: AppCompatImageView = view.findViewById(R.id.imgPoster)
         var txtTitle: AppCompatTextView = view.findViewById(R.id.txtTitle)
+        var txtDescription: AppCompatTextView = view.findViewById(R.id.txtDescription)
     }
 }

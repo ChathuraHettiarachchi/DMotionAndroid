@@ -83,7 +83,7 @@ class ChannelActivity : AppCompatActivity() {
             crossfade(true)
         }
         binding.txtFirstTitle.text = first.name.resolve()
-        binding.txtFirstDescription.text = first.description.htmlEncode()
+        binding.txtFirstDescription.text = first.description.resolveHtml()
         binding.imgPoster.setOnClickListener {
             launchActivity<VideoListActivity> {
                 putExtra(Constants.CHANNEL, first.id)
