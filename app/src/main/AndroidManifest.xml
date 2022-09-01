@@ -15,33 +15,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.DMotion"
+        android:theme="@style/Theme.DMotion.SplashScreen"
         tools:targetApi="31">
         <activity
             android:name=".presentation.videos.VideoListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.DMotion"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".presentation.videodetails.VideoDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.DMotion"
             tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".presentation.player.PlayerActivity"
             android:exported="false"
+            android:theme="@style/Theme.DMotion"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"/>
         <activity
             android:name=".presentation.channels.ChannelActivity"
-            android:exported="false"
+            android:exported="true"
+            android:theme="@style/Theme.DMotion.SplashScreen"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity
-            android:name=".presentation.splash.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="true">
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
