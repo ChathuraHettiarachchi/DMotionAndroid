@@ -1,5 +1,6 @@
 package com.choota.dmotion.presentation.channels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.choota.dmotion.domain.model.Channel
@@ -12,6 +13,7 @@ import com.choota.dmotion.domain.use_case.local.use_case_resource_video.InsertVi
 import com.choota.dmotion.util.Constants.RESOURCE_VIDEOS
 import com.choota.dmotion.util.Resource
 import com.choota.dmotion.util.resolve
+import com.rommansabbir.networkx.extension.isInternetConnectedFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -23,8 +25,9 @@ class ChannelViewModel @Inject constructor(
     private val imagesUseCase: GetImagesUseCase,
     private val getVideosUseCase: GetVideosUseCase,
     private val insertVideoUseCase: InsertVideoUseCase,
-) :
-    ViewModel() {
+) : ViewModel() {
+
+    private var isConnected: Boolean = false
 
     // mutable state for api response
     private val _channelState = MutableStateFlow<ChannelDataState>(ChannelDataState())
@@ -35,6 +38,14 @@ class ChannelViewModel @Inject constructor(
 
         // get resource videos and insert if empty
         populateResourceVideos()
+
+        // setup delegate
+        viewModelScope.launch {
+            isInternetConnectedFlow.collectLatest {
+                isConnected = it
+                Log.e("Network", isConnected.toString())
+            }
+        }
     }
 
     /**
