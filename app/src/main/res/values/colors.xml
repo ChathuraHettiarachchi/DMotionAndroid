@@ -13,4 +13,5 @@
     <color name="black_30">#4D000000</color>
     <color name="black_50">#80000000</color>
     <color name="red">#EF2424</color>
+    <color name="tag">#302F2F</color>
 </resources>
