@@ -83,7 +83,7 @@ class VideoDetailActivity : AppCompatActivity() {
                 addItemDecoration(SpacingItemDecoration(12, 12))
             }
         } else {
-            binding.txtTag.gone()
+            binding.layTags.gone()
         }
     }
 
