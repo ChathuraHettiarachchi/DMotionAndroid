@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
 import android.view.View
+import android.widget.Toast
 import java.util.*
 
 
@@ -115,4 +116,6 @@ inline fun <reified T : Any> Context.launchActivity (
  */
 inline fun <reified T : Any> newIntent(context: Context): Intent =
     Intent(context, T::class.java)
+
+fun Activity.toast(message: String) = Toast.makeText(this.applicationContext, message.resolve(), Toast.LENGTH_LONG).show()
 

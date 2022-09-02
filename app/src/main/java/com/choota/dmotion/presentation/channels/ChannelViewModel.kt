@@ -23,8 +23,7 @@ class ChannelViewModel @Inject constructor(
     private val imagesUseCase: GetImagesUseCase,
     private val getVideosUseCase: GetVideosUseCase,
     private val insertVideoUseCase: InsertVideoUseCase,
-) :
-    ViewModel() {
+) : ViewModel() {
 
     // mutable state for api response
     private val _channelState = MutableStateFlow<ChannelDataState>(ChannelDataState())
@@ -41,7 +40,7 @@ class ChannelViewModel @Inject constructor(
      * get channels as user scroll through
      * @param page is the page number
      */
-    private fun getChannels(page: Int = 1) {
+    fun getChannels(page: Int = 1) {
         channelsUseCase(page).onEach { _it ->
             when (_it) {
                 is Resource.Error -> {

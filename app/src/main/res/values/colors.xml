@@ -14,4 +14,8 @@
     <color name="black_50">#80000000</color>
     <color name="red">#EF2424</color>
     <color name="tag">#302F2F</color>
+
+    <color name="button_bgcolor">#EF2424</color>
+    <color name="button_bgcolor_press">#610909</color>
+    <color name="button_bgcolor_enable">#EF2424</color>
 </resources>
