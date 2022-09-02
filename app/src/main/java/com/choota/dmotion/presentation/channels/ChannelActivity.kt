@@ -94,7 +94,6 @@ class ChannelActivity : AppCompatActivity() {
 
         binding.recyclerChannels.apply {
             adapter = channelAdapter
-            layoutManager = GridLayoutManager(this@ChannelActivity, 2)
             setHasFixedSize(true)
         }
 

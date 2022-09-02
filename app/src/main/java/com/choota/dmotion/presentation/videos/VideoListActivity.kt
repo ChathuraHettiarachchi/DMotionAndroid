@@ -100,7 +100,6 @@ class VideoListActivity : AppCompatActivity() {
     private fun initUI() {
         binding.recyclerVideos.apply {
             adapter = videoAdapter
-            layoutManager = LinearLayoutManager(this@VideoListActivity)
             setHasFixedSize(false)
         }
 

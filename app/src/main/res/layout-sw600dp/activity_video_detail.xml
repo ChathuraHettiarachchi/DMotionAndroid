@@ -9,8 +9,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:background="@color/black"
-        android:layout_height="440dp">
+        android:layout_height="440dp"
+        android:background="@color/black">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -72,166 +72,178 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp"
         android:background="@color/black"
+        android:padding="12dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txtViews"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtTitle"
-                        android:text="1000"
-                        android:layout_marginEnd="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/txtViews"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTitle"
+                            android:layout_marginEnd="4dp"
+                            android:text="1000"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTitle"
+                            android:text="views"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtTitle"
-                        android:text="views"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTitle"
+                            android:text="Duration:"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtDuration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTitle"
+                            android:layout_marginStart="8dp"
+                            android:text="02:00"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:gravity="right"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
-                        android:text="Duration:"
+                        android:text="Country:"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtDuration"
+                        android:id="@+id/txtCountry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtTitle"
-                        android:text="02:00"
                         android:layout_marginStart="8dp"
+                        android:text="Finland"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtTitle"
+                        android:text="Language:"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtLanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtTitle"
+                        android:layout_marginStart="8dp"
+                        android:text="1000"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtTitle"
-                    android:text="Country:"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
+                    android:textColor="@color/white_75"
                     android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtCountry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtTitle"
-                    android:text="Finland"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtTitle"
-                    android:text="Language:"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLanguage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtTitle"
-                    android:text="1000"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <TextView
-                android:id="@+id/txtDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTitle"
-                android:layout_marginTop="8dp"
-                android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
-                android:textColor="@color/white_75"
-                android:textSize="16sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/txtTag"
@@ -240,8 +252,8 @@
                     android:layout_below="@+id/txtTitle"
                     android:text="Tags"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerTags"
@@ -266,7 +278,7 @@
         android:contentDescription="Play"
         android:text="Play Video"
         app:elevation="12dp"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        app:icon="@drawable/baseline_play_circle_white_24dp" />
+        app:icon="@drawable/baseline_play_circle_white_24dp"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
