@@ -10,13 +10,18 @@ import coil.ImageLoader
 import coil.load
 import com.choota.dmotion.R
 import com.choota.dmotion.databinding.ActivityVideoListBinding
+import com.choota.dmotion.domain.model.Video
+import com.choota.dmotion.presentation.common.dialog.NetworkStateDialog
+import com.choota.dmotion.presentation.videodetails.VideoDetailActivity
+import com.choota.dmotion.util.*
 import com.choota.dmotion.util.Constants.CHANNEL
 import com.choota.dmotion.util.Constants.DESCRIPTION
 import com.choota.dmotion.util.Constants.IMAGE
 import com.choota.dmotion.util.Constants.TITLE
-import com.choota.dmotion.util.gone
-import com.choota.dmotion.util.visible
+import com.rommansabbir.networkx.extension.isInternetConnectedFlow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +36,7 @@ class VideoListActivity : AppCompatActivity() {
     private lateinit var title: String
     private lateinit var description: String
 
+    private var isConnected: Boolean = true
     private var _binding: ActivityVideoListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: VideoViewModel by viewModels()
@@ -45,13 +51,22 @@ class VideoListActivity : AppCompatActivity() {
     }
 
     private fun setup() {
+        videoAdapter = VideoAdapter(loader, this) {
+            launchVideoDetails(it)
+        }
+
         channel = intent.getStringExtra(CHANNEL).toString()
         imagePoster = intent.getStringExtra(IMAGE).toString()
         title = intent.getStringExtra(TITLE).toString()
         description = intent.getStringExtra(DESCRIPTION).toString()
-        videoAdapter = VideoAdapter(loader, this)
 
         viewModel.getVideos(channel)
+
+        lifecycleScope.launch {
+            isInternetConnectedFlow.collectLatest { state ->
+                isConnected = state
+            }
+        }
 
         lifecycleScope.launchWhenCreated {
             viewModel.videoState.collect {
@@ -59,7 +74,10 @@ class VideoListActivity : AppCompatActivity() {
                     binding.viewShimmer.startShimmer()
                     binding.recyclerVideos.gone()
                 } else if (!it.isLoading && it.error.isNotEmpty()) {
-                    Toast.makeText(this@VideoListActivity, it.error, Toast.LENGTH_LONG).show()
+                    if (isConnected)
+                        toast(it.error)
+                    else
+                        NetworkStateDialog.show(this@VideoListActivity)
                 } else {
                     binding.viewShimmer.stopShimmer()
                     binding.viewShimmer.gone()
@@ -70,6 +88,15 @@ class VideoListActivity : AppCompatActivity() {
         }
     }
 
+    private fun launchVideoDetails(it: Video) {
+        if (isConnected)
+            launchActivity<VideoDetailActivity> {
+                putExtra(Constants.DETAILS, it)
+            }
+        else
+            NetworkStateDialog.show(this)
+    }
+
     private fun initUI() {
         binding.recyclerVideos.apply {
             adapter = videoAdapter
@@ -78,7 +105,7 @@ class VideoListActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         binding.imgPoster.load(imagePoster) {

@@ -16,19 +16,25 @@ import coil.load
 import com.choota.dmotion.R
 import com.choota.dmotion.databinding.ActivityChannelBinding
 import com.choota.dmotion.domain.model.Channel
+import com.choota.dmotion.presentation.common.dialog.NetworkStateDialog
 import com.choota.dmotion.presentation.videos.VideoListActivity
 import com.choota.dmotion.util.*
+import com.rommansabbir.networkx.extension.isInternetConnectedFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChannelActivity : AppCompatActivity() {
 
-    @Inject lateinit var loader: ImageLoader
+    @Inject
+    lateinit var loader: ImageLoader
 
     private lateinit var channelAdapter: ChannelAdapter
+    private var isConnected: Boolean = true
+    private var isInitialLoadSuccess: Boolean = true
     private var _binding: ActivityChannelBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ChannelViewModel by viewModels()
@@ -50,13 +56,26 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun setup() {
+        lifecycleScope.launch {
+            isInternetConnectedFlow.collectLatest { state ->
+                isConnected = state
+                if(!isInitialLoadSuccess) viewModel.getChannels()
+            }
+        }
+
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.channelState.collect{
-                if(it.isLoading){
+            viewModel.channelState.collect {
+                if (it.isLoading) {
                     binding.viewShimmer.startShimmer()
-                } else if (!it.isLoading && it.error.isNotEmpty()){
-                    Toast.makeText(this@ChannelActivity, it.error, Toast.LENGTH_LONG).show()
+                } else if (!it.isLoading && it.error.isNotEmpty()) {
+                    isInitialLoadSuccess = false
+                    if (isConnected)
+                        toast(it.error)
+                    else
+                        NetworkStateDialog.show(this@ChannelActivity)
                 } else {
+                    isInitialLoadSuccess = true
+
                     binding.viewShimmer.stopShimmer()
                     binding.viewShimmer.gone()
                     binding.appBar.visible()
@@ -69,31 +88,43 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        channelAdapter = ChannelAdapter(loader, this)
-        binding.viewShimmer.visible()
+        channelAdapter = ChannelAdapter(loader, this) {
+            launchVideoList(it)
+        }
 
         binding.recyclerChannels.apply {
             adapter = channelAdapter
             layoutManager = GridLayoutManager(this@ChannelActivity, 2)
             setHasFixedSize(true)
         }
+
+        binding.viewShimmer.visible()
     }
 
-    private fun populateChannels(items: MutableList<Channel>){
+    private fun launchVideoList(it: Channel) {
+        if (isConnected)
+            launchActivity<VideoListActivity> {
+                putExtra(Constants.CHANNEL, it.id)
+                putExtra(Constants.IMAGE, it.image)
+                putExtra(Constants.TITLE, it.name)
+                putExtra(Constants.DESCRIPTION, it.description)
+            }
+        else
+            NetworkStateDialog.show(this)
+    }
+
+    private fun populateChannels(items: MutableList<Channel>) {
         val first = items.removeAt(0)
-        binding.imgPoster.load(first.image){
-            placeholder(R.drawable.placeholder)
-            crossfade(true)
-        }
         binding.txtFirstTitle.text = first.name.resolve()
         binding.txtFirstDescription.text = first.description.resolveHtml()
+
         binding.imgPoster.setOnClickListener {
-            launchActivity<VideoListActivity> {
-                putExtra(Constants.CHANNEL, first.id)
-                putExtra(Constants.IMAGE, first.image)
-                putExtra(Constants.TITLE, first.name)
-                putExtra(Constants.DESCRIPTION, first.description)
-            }
+            launchVideoList(first)
+        }
+
+        binding.imgPoster.load(first.image) {
+            placeholder(R.drawable.placeholder)
+            crossfade(true)
         }
 
         channelAdapter.notifyDataSetChanged()

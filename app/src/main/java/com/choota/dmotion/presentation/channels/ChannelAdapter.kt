@@ -30,7 +30,7 @@ import javax.inject.Inject
  * Adapter to populate channels coming from dailymotion API
  * @param context is the context of activity where it creates
  */
-class ChannelAdapter (loader: ImageLoader, context: Context) : RecyclerView.Adapter<ChannelAdapter.ViewHolder>() {
+class ChannelAdapter (loader: ImageLoader, context: Context, private val callback: (Channel) -> Unit) : RecyclerView.Adapter<ChannelAdapter.ViewHolder>() {
 
     val _loader = loader
     val _context = context
@@ -66,12 +66,7 @@ class ChannelAdapter (loader: ImageLoader, context: Context) : RecyclerView.Adap
         _loader.enqueue(request)
 
         holder.imgPoster.setOnClickListener {
-            _context.launchActivity<VideoListActivity> {
-                putExtra(CHANNEL, item.id)
-                putExtra(IMAGE, item.image)
-                putExtra(TITLE, item.name)
-                putExtra(DESCRIPTION, item.description)
-            }
+            callback(item)
         }
     }
 

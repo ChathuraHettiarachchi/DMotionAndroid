@@ -25,7 +25,7 @@ import com.choota.dmotion.util.resolveHtml
  * Adapter to populate Videos coming from dailymotion API
  * @param context is the context of activity where it creates
  */
-class VideoAdapter(loader: ImageLoader, context: Context) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+class VideoAdapter(loader: ImageLoader, context: Context, private val callback: (Video) -> Unit) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
     val _loader = loader
     val _context = context
     var items: List<Video> = listOf()
@@ -58,9 +58,7 @@ class VideoAdapter(loader: ImageLoader, context: Context) : RecyclerView.Adapter
         _loader.enqueue(request)
 
         holder.layMain.setOnClickListener {
-            _context.launchActivity<VideoDetailActivity> {
-                putExtra(DETAILS, item)
-            }
+            callback(item)
         }
     }
 
