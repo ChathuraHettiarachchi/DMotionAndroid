@@ -83,7 +83,7 @@
                 android:layout_marginBottom="12dp">
 
                 <TextView
-                    android:id="@+id/txtTitle"
+                    android:id="@+id/txtTitleVideoList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
@@ -95,7 +95,7 @@
                     android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtTitle"
+                    android:layout_below="@+id/txtTitleVideoList"
                     android:text="Description"
                     android:textColor="@color/white_75"
                     android:textSize="16sp" />

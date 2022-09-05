@@ -56,9 +56,14 @@ class ChannelActivity : AppCompatActivity() {
     }
 
     private fun setup() {
+        EspressoIdlingResource.increment()
         lifecycleScope.launch {
             isInternetConnectedFlow.collectLatest { state ->
-                isConnected = state
+                isConnected = if(Constants.isTestMode()){
+                    true
+                } else {
+                    state
+                }
                 if(!isInitialLoadSuccess) viewModel.getChannels()
             }
         }
@@ -74,6 +79,7 @@ class ChannelActivity : AppCompatActivity() {
                     else
                         NetworkStateDialog.show(this@ChannelActivity)
                 } else {
+                    EspressoIdlingResource.decrement()
                     isInitialLoadSuccess = true
 
                     binding.viewShimmer.stopShimmer()
@@ -81,6 +87,7 @@ class ChannelActivity : AppCompatActivity() {
                     binding.appBar.visible()
                     binding.recyclerChannels.visible()
 
+                    EspressoIdlingResource.increment()
                     populateChannels(it.data.list.toMutableList())
                 }
             }
@@ -128,5 +135,6 @@ class ChannelActivity : AppCompatActivity() {
 
         channelAdapter.notifyDataSetChanged()
         channelAdapter.addChannels(items)
+        EspressoIdlingResource.decrement()
     }
 }

@@ -112,7 +112,7 @@ class VideoListActivity : AppCompatActivity() {
             crossfade(true)
         }
 
-        binding.txtTitle.text = title
+        binding.txtTitleVideoList.text = title
         binding.txtDescription.text = description
     }
 }

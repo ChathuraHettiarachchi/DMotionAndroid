@@ -59,7 +59,7 @@ class ChannelViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getImages(page: ChannelPage) {
+    private suspend fun getImages(page: ChannelPage) {
         viewModelScope.launch(Dispatchers.IO) {
             val _list = mutableListOf<Channel>()
             val job = page.list.map {
@@ -82,10 +82,7 @@ class ChannelViewModel @Inject constructor(
             }.awaitAll()
 
             job.joinAll()
-            withContext(Dispatchers.Main) {
-                _channelState.value =
-                    ChannelDataState(isLoading = false, data = page.apply { list = _list })
-            }
+            _channelState.value = ChannelDataState(isLoading = false, data = page.apply { list = _list })
         }
     }
 
