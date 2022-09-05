@@ -27,4 +27,14 @@ object Constants {
         "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
         "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
     )
+
+    fun isTestMode(): Boolean {
+        val result: Boolean = try {
+            Class.forName("com.choota.dmotion.presentation.channels.ChannelActivityTest")
+            true
+        } catch (e: Exception) {
+            false
+        }
+        return result
+    }
 }
