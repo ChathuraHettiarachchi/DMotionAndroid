@@ -1,19 +1,15 @@
 package com.choota.dmotion.domain.use_case.local.use_case_resource_video
 
-
 import androidx.test.filters.MediumTest
-import androidx.test.filters.SmallTest
 import app.cash.turbine.test
 import com.choota.dmotion.data.local.DMotionDatabase
 import com.choota.dmotion.di.AppModule
 import com.choota.dmotion.domain.model.local.ResourceVideo
 import com.choota.dmotion.domain.repository.local.ResourceVideoRepository
-import com.choota.dmotion.util.Constants
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -24,8 +20,7 @@ import javax.inject.Inject
 @MediumTest
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class GetVideosUseCaseTest {
-
+class GetVideoByIdUseCaseTest{
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
@@ -41,18 +36,19 @@ class GetVideosUseCaseTest {
     }
 
     @Test
-    fun check_getAll_after_data_insert() = runBlocking {
-        Constants.RESOURCE_VIDEOS.forEach {
-            repository.insertVideo(
-                ResourceVideo(0, it)
-            )
-        }
+    fun check_video_by_id() = runBlocking {
+        val video = ResourceVideo(0, "Link")
+        var id = -1L
+        var videoFromDB = ResourceVideo(0, "")
 
-        repository.getVideos().test {
-            val emitList = awaitItem()
-            assertThat(emitList).isNotEmpty()
-            assertThat(emitList.size == Constants.RESOURCE_VIDEOS.size).isTrue()
-        }
+        id = repository.insertVideo(
+            video
+        )
+
+        videoFromDB = repository.getVideoById(id)
+        assertThat(id >= 0).isTrue()
+        assertThat(videoFromDB.link.isNotEmpty()).isTrue()
+        assertThat(videoFromDB.link == "Link").isTrue()
     }
 
     @After

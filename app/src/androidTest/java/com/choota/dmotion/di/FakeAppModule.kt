@@ -127,7 +127,6 @@ object FakeAppModule {
      */
     @Provides
     @Singleton
-    @Named("fake-db")
     fun providesFakeDMotionDatabase(@ApplicationContext context: Context) =
         Room.inMemoryDatabaseBuilder(
             context, DMotionDatabase::class.java
@@ -140,7 +139,6 @@ object FakeAppModule {
      */
     @Provides
     @Singleton
-    @Named("fake-repo")
     fun providesFakeResourceVideoRepo(db: DMotionDatabase): ResourceVideoRepository {
         return ResourceVideoRepositoryImpl(db.resourceVideoDao)
     }
